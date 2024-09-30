@@ -14,8 +14,10 @@ import com.example.contadoradrian.databinding.FragmentFirstBinding;
 public class FirstFragment extends Fragment {
 
     private FragmentFirstBinding binding;
-    private Integer BotonVidap1;
-    private Integer BotonVenenoMasP1;
+    private Integer lifeP1;
+    private Integer poisonP1;
+    private Integer lifeP2;
+    private Integer poisonP2;
 
 
     @Override
@@ -32,17 +34,73 @@ public class FirstFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        BotonVidap1 = 20;
-        BotonVenenoMasP1 = 0;
 
-        if (savedInstanceState != null){
-            BotonVidap1 = savedInstanceState.getInt("BotonVIdaP1");
-            BotonVenenoMasP1 = savedInstanceState.getInt("BotonVenenoMasP1");
+        lifeP1 = 20;
+        lifeP2 = 20;
+        poisonP1 = 0;
+        poisonP2 = 0;
+
+        if (savedInstanceState != null) {
+            lifeP1 = savedInstanceState.getInt("lifeP1");
+            poisonP1 = savedInstanceState.getInt("poisonP1");
         }
 
+        binding.BotonVenenoMasP1.setOnClickListener(v -> {
+            poisonP1++;
+            refresh();
+        });
+        binding.BotonVenenoMenosP1.setOnClickListener(v -> {
+            poisonP1--;
+            refresh();
+        });
+        binding.BotonSumarVenenoP2.setOnClickListener(v -> {
+            poisonP2++;
+            refresh();
+        });
+        binding.BotonRestarVenenoP2.setOnClickListener(v -> {
+            poisonP2--;
+            refresh();
+        });
+
+        binding.BotonSumarVidaP1.setOnClickListener(v -> {
+            lifeP1++;
+            refresh();
+        });
+        binding.BotonRestarVidaP1.setOnClickListener(v -> {
+            lifeP1--;
+            refresh();
+        });
+        binding.BotonSumarVidaP2.setOnClickListener(v -> {
+            lifeP2++;
+            refresh();
+        });
+        binding.BotonRestarVidaP2.setOnClickListener(v -> {
+            lifeP2--;
+            refresh();
+        });
+        binding.imageButton.setOnClickListener(v -> {
+            lifeP1++;
+            lifeP2--;
+            refresh();
+        });
+        binding.imageButton2.setOnClickListener(v -> {
+            lifeP2++;
+            lifeP1--;
+            refresh();
+        });
 
 
     }
+
+
+    private void refresh() {
+        binding.TextoP1.setText(lifeP1 + "/" + poisonP1);
+        binding.Texto2.setText(lifeP2 + "/" + poisonP2);
+    }
+
+
+
+
 
     @Override
     public void onDestroyView() {
