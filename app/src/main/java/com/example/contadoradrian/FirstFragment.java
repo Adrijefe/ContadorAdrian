@@ -34,16 +34,21 @@ public class FirstFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-        lifeP1 = 20;
-        lifeP2 = 20;
-        poisonP1 = 0;
-        poisonP2 = 0;
-
-        if (savedInstanceState != null) {
+        if (savedInstanceState != null){
             lifeP1 = savedInstanceState.getInt("lifeP1");
             poisonP1 = savedInstanceState.getInt("poisonP1");
+            lifeP2 = savedInstanceState.getInt("lifeP2");
+            poisonP2 = savedInstanceState.getInt("poisonP2");
         }
+        else {
+            reset();
+        }
+        refresh();
+
+
+
+
+
 
         binding.BotonVenenoMasP1.setOnClickListener(v -> {
             poisonP1++;
@@ -79,14 +84,18 @@ public class FirstFragment extends Fragment {
             refresh();
         });
         binding.imageButton.setOnClickListener(v -> {
-            lifeP1++;
-            lifeP2--;
-            refresh();
+            if (lifeP2 > 0) {
+                lifeP1++;
+                lifeP2--;
+                refresh();
+            }
         });
         binding.imageButton2.setOnClickListener(v -> {
-            lifeP2++;
-            lifeP1--;
-            refresh();
+            if (lifeP1 > 0) {
+                lifeP2++;
+                lifeP1--;
+                refresh();
+            }
         });
 
 
@@ -98,9 +107,25 @@ public class FirstFragment extends Fragment {
         binding.Texto2.setText(lifeP2 + "/" + poisonP2);
     }
 
+    private void reset(){
+        lifeP1 = 20;
+        lifeP2 = 20;
+        poisonP1 = 0;
+        poisonP2 = 0;
+    }
+
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("lifeP1", lifeP1);
+        outState.putInt("lifeP2", lifeP2);
+        outState.putInt("poisonP1", poisonP1);
+        outState.putInt("poisonP2", poisonP2);
 
 
 
+    }
 
     @Override
     public void onDestroyView() {
